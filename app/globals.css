@@ -1,26 +1,62 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  --color-ember-black: #080705;
+  --color-ember-dark: #0f0d09;
+  --color-ember-dark-2: #181410;
+  --color-ember-gold: #c9a253;
+  --color-ember-gold-2: #e2c07a;
+  --color-ember-cream: #f5f0e8;
+  --color-ember-muted: rgba(245, 240, 232, 0.45);
+  --color-ember-border: rgba(201, 162, 83, 0.35);
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-cormorant), ui-serif, Georgia, serif;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-ember-black);
+  color: var(--color-ember-cream);
+  font-weight: 300;
+}
+
+/* Background video vignette overlay used on the funnel hero */
+.bg-vignette {
+  background:
+    radial-gradient(ellipse at center, transparent 20%, rgba(8, 7, 5, 0.85) 90%),
+    linear-gradient(
+      to bottom,
+      rgba(8, 7, 5, 0.55) 0%,
+      rgba(8, 7, 5, 0.4) 50%,
+      rgba(8, 7, 5, 0.85) 100%
+    );
+}
+
+/* Decorative gold corner brackets on the offer card */
+.offer-corners {
+  position: relative;
+}
+.offer-corners::before,
+.offer-corners::after {
+  content: '';
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border: 1px solid var(--color-ember-gold);
+}
+.offer-corners::before {
+  top: -7px;
+  left: -7px;
+  border-right: none;
+  border-bottom: none;
+}
+.offer-corners::after {
+  bottom: -7px;
+  right: -7px;
+  border-left: none;
+  border-top: none;
 }
