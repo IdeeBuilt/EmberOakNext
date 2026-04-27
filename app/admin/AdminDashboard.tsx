@@ -54,6 +54,8 @@ const todayLong = () =>
     year: 'numeric',
   })
 
+const DEMO_EMAIL = 'demo@gmail.com'
+
 export function AdminDashboard({
   initialReservations,
   userEmail,
@@ -62,6 +64,7 @@ export function AdminDashboard({
   userEmail: string
 }) {
   const router = useRouter()
+  const isDemo = userEmail === DEMO_EMAIL
   const [reservations, setReservations] = useState(initialReservations)
   const [whenFilter, setWhenFilter] = useState<WhenFilter>('today')
   const [statusFilter, setStatusFilter] = useState<StatusFilter>('all')
@@ -186,6 +189,12 @@ export function AdminDashboard({
           </button>
         </div>
       </header>
+
+      {isDemo && (
+        <div className="border-b border-[rgba(201,162,83,0.25)] bg-[rgba(201,162,83,0.08)] px-8 py-3 text-center text-[0.72rem] tracking-[0.16em] text-ember-gold-2 uppercase max-md:px-4">
+          Demo Mode <span className="opacity-60">·</span> Read-only showcase — status updates are disabled
+        </div>
+      )}
 
       <main className="mx-auto max-w-[1280px] px-8 py-8 max-md:px-4">
         <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
@@ -358,6 +367,7 @@ export function AdminDashboard({
           onUpdateStatus={updateStatus}
           error={modalError}
           success={modalSuccess}
+          isDemo={isDemo}
         />
       )}
     </div>
@@ -435,12 +445,14 @@ function ReservationModal({
   onUpdateStatus,
   error,
   success,
+  isDemo,
 }: {
   reservation: ReservationRow
   onClose: () => void
   onUpdateStatus: (status: ReservationStatus) => void
   error: string | null
   success: string | null
+  isDemo: boolean
 }) {
   return (
     <div
@@ -493,21 +505,27 @@ function ReservationModal({
           />
         </div>
 
-        <div className="flex flex-wrap gap-2">
-          <h4 className="w-full text-[0.62rem] font-medium tracking-[0.2em] text-[rgba(245,240,232,0.45)] uppercase">
-            Update status
-          </h4>
-          {RESERVATION_STATUSES.map((s) => (
-            <button
-              key={s}
-              onClick={() => onUpdateStatus(s)}
-              disabled={r.status === s}
-              className="border-ember-border hover:border-ember-gold hover:text-ember-gold inline-flex cursor-pointer items-center gap-2 border bg-transparent px-3 py-2 text-[0.65rem] font-medium tracking-[0.16em] text-ember-cream uppercase transition-colors disabled:cursor-not-allowed disabled:opacity-40"
-            >
-              {STATUS_LABELS[s]}
-            </button>
-          ))}
-        </div>
+        {isDemo ? (
+          <div className="border border-[rgba(201,162,83,0.25)] bg-[rgba(201,162,83,0.06)] px-4 py-3 text-[0.75rem] tracking-[0.08em] text-ember-gold-2">
+            Status updates are disabled in demo mode.
+          </div>
+        ) : (
+          <div className="flex flex-wrap gap-2">
+            <h4 className="w-full text-[0.62rem] font-medium tracking-[0.2em] text-[rgba(245,240,232,0.45)] uppercase">
+              Update status
+            </h4>
+            {RESERVATION_STATUSES.map((s) => (
+              <button
+                key={s}
+                onClick={() => onUpdateStatus(s)}
+                disabled={r.status === s}
+                className="border-ember-border hover:border-ember-gold hover:text-ember-gold inline-flex cursor-pointer items-center gap-2 border bg-transparent px-3 py-2 text-[0.65rem] font-medium tracking-[0.16em] text-ember-cream uppercase transition-colors disabled:cursor-not-allowed disabled:opacity-40"
+              >
+                {STATUS_LABELS[s]}
+              </button>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   )

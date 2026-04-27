@@ -110,6 +110,25 @@ function LoginForm() {
             {submitting ? 'Signing in…' : 'Sign in'}
           </button>
         </form>
+
+        <div className="mt-8 border-t border-[rgba(201,162,83,0.18)] pt-6">
+          <div className="mb-2 text-[0.6rem] tracking-[0.2em] text-ember-gold-2 uppercase">
+            Portfolio demo access
+          </div>
+          <div className="mb-3 text-[0.78rem] leading-relaxed text-[rgba(245,240,232,0.6)]">
+            Read-only view for recruiters. Sign in to explore the dashboard.
+          </div>
+          <button
+            type="button"
+            onClick={() => {
+              setEmail('demo@gmail.com')
+              setPassword('demo1234')
+            }}
+            className="border-ember-border hover:border-ember-gold hover:text-ember-gold w-full cursor-pointer border bg-transparent px-4 py-2 text-[0.68rem] font-medium tracking-[0.16em] text-ember-cream uppercase transition-colors"
+          >
+            Use demo credentials
+          </button>
+        </div>
       </div>
     </div>
   )
